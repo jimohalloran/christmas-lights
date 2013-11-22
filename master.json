@@ -1,0 +1,92 @@
+{
+	"controllers": {
+		"primary": {
+			"type": "arduinotlc",
+			"serialPort": "/dev/cu.usbserial",
+			"channels": [
+				"tree1r",
+				"tree1g",
+				"tree1b",
+				"tree2r",
+				"tree2g",
+				"tree2b",
+				"tree3r",
+				"tree3g",
+				"tree3b",
+				"tree4r",
+				"tree4g",
+				"tree4b",
+				"tree5r",
+				"tree5g",
+				"tree5b",
+				"spare1",
+				"tree6r",
+				"tree6g",
+				"tree6b",
+				"tree7r",
+				"tree7g",
+				"tree7b",
+				"tree8r",
+				"tree8g",
+				"tree8b",
+				"tree9r",
+				"tree9g",
+				"tree9b",
+				"tree10r",
+				"tree10g",
+				"tree10b",
+				"spare2"
+			]
+		}
+	},
+	"lights": {
+		"tree1": {
+			"type": "rgb",
+			"channels": ["tree1r", "tree1g", "tree1b"]
+		},
+		"tree2": {
+			"type": "rgb",
+			"channels": ["tree2r", "tree2g", "tree2b"]
+		},
+		"tree3": {
+			"type": "rgb",
+			"channels": ["tree3r", "tree3g", "tree3b"]
+		},
+		"tree4": {
+			"type": "rgb",
+			"channels": ["tree4r", "tree4g", "tree4b"]
+		},
+		"tree5": {
+			"type": "rgb",
+			"channels": ["tree5r", "tree5g", "tree5b"]
+		},
+		"tree6": {
+			"type": "rgb",
+			"channels": ["tree6r", "tree6g", "tree6b"]
+		},
+		"tree7": {
+			"type": "rgb",
+			"channels": ["tree7r", "tree7g", "tree7b"]
+		},
+		"tree8": {
+			"type": "rgb",
+			"channels": ["tree8r", "tree8g", "tree8b"]
+		},
+		"tree9": {
+			"type": "rgb",
+			"channels": ["tree9r", "tree9g", "tree9b"]
+		},
+		"tree10": {
+			"type": "rgb",
+			"channels": ["tree10r", "tree10g", "tree10b"]
+		},
+		"spare1": {
+			"type": "mono",
+			"channel": "spare1"
+		},
+		"spare2": {
+			"type": "mono",
+			"channel": "spare2"
+		}
+	}
+}
