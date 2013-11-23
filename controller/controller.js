@@ -1,5 +1,5 @@
 var Config = require('../common/config.js');
-Config.init(function() {
+Config.init(false, function() {
 
 	// Original source for UDP listener code:
 	//   http://www.robertprice.co.uk/robblog/2011/03/writing_a_udp_server_using_node_js-shtml/
@@ -9,7 +9,7 @@ Config.init(function() {
 	var server = dgram.createSocket("udp4");
 
 	server.on("message", function (msg, rinfo) {
-		console.log("server got: " + msg + " from " + rinfo.address + ":" + rinfo.port);
+		console.log(msg);
 	});
 
 	server.on("listening", function () {
