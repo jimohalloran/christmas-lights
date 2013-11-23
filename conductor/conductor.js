@@ -13,14 +13,17 @@ var Display = {
 	_nextIdx: 0,
 
 	getNextPattern: function() {
-		console.log(this._nextIdx);
 		if (this._displayPatterns.length == 0) {
 			console.log("Generating display...");
 			this._generateDisplay();
 		}
 
 		if (this._nextIdx >= this._displayPatterns.length) {
-			this._nextIdx = 0;
+			if (Config.display.repeat) {
+				this._nextIdx = 0;
+			} else {
+				return null;
+			}
 		}
 
 		return this._displayPatterns[this._nextIdx++];
@@ -75,12 +78,12 @@ var Sequences = {
 		}
 
 		// Append a copy of the generated pattern to itself once per repeat.
-		//if (seq.repeats != undefined && seq.repeats > 1) {
-		//	var singlePattern = patterns;
-		//	for (var i = 2; i <= seq.repeats; i++) {
-		//		patterns = patterns.concat(singlePattern);
-		//	}
-		//}
+		if (seq.repeats != undefined && seq.repeats > 1) {
+			var singlePattern = patterns;
+			for (var i = 2; i <= seq.repeats; i++) {
+				patterns = patterns.concat(singlePattern);
+			}
+		}
 
 		return patterns;
 	},
@@ -113,10 +116,12 @@ Config.init(true, function() {
 
 	setInterval(function() {
 		var pattern = Display.getNextPattern();
+		if (pattern == null) {
+			process.exit(0);
+		}
+
 		console.dir(pattern);
 		//client.send(message, 0, message.length, server_port, server_ip);
-		if (debug)
-			console.log("Time: " + new Date());
 	}, Display.getBeatInterval());
 
 });
