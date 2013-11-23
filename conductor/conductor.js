@@ -47,6 +47,7 @@ var Sequences = {
 	generateSequence: function(seq, colours) {
 		var patterns = [];
 
+		// If the pattern or sequence can accpet optional colour values, make sure the correct number were passed. 
 		if (seq.colours != undefined) {
 			if (!Array.isArray(colours)) {
 				colours = [colours];
@@ -73,7 +74,7 @@ var Sequences = {
 
 		// Sequence item references a formation of lights
 		if (seq.form != undefined) {
-			var patternColour = this.generateColour(seq.colour, colours);
+			var patternColour = this._generateColour(seq.colour, colours);
 			patterns = patterns.concat({"lights": Config.formations[seq.form], "colour": patternColour});
 		}
 
@@ -88,8 +89,25 @@ var Sequences = {
 		return patterns;
 	},
 
-	generateColour: function(colourIndex, colours) {
-		return 0;
+	_generateColour: function(colourIndex, colours) {
+		if (colourIndex === 0) {
+			return [0, 0, 0];
+		} else if (parseInt(colourIndex) != NaN) {
+			console.dir([colourIndex, colours]);
+			return this._htmlColourToRgbArray(colours[colourIndex-1]);
+		} else if (colourIndex.match(/#[0-9a-f]{6}/)) {
+			return this._htmlColourToRgbArray(colourIndex);
+		}
+
+		return null;
+	},
+
+	_htmlColourToRgbArray: function(htmlColour) {
+		htmlComponents = htmlColour.match(/#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})/).slice(1, 4);
+		htmlComponents.forEach(function(value, index, arr) {
+			arr[index] = parseInt("0x"+value);
+		});
+		return htmlComponents;
 	} 
 }
 
