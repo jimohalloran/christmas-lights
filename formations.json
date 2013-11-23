@@ -1,0 +1,31 @@
+{
+	"forrest": ["tree1", "tree2", "tree3", "tree4", "tree5", "tree6", "tree7", "tree8", "tree9", "tree10"],
+	
+	"row1": ["tree1"],
+	"row2": ["tree2", "tree3"],
+	"row3": ["tree4", "tree5", "tree6"],
+	"row4": ["tree7", "tree8", "tree9", "tree10"],
+	
+	"col1": ["tree7"],
+	"col2": ["tree4"],
+	"col3": ["tree2", "tree8"],
+	"col4": ["tree1", "tree5"],
+	"col5": ["tree3", "tree9"],
+	"col6": ["tree6"],
+	"col7": ["tree10"],
+
+	"burst1": ["tree5"],
+	"burst2": ["tree2", "tree3", "tree8", "tree9"],
+	"burst3": ["tree4", "tree1", "tree6"],
+	"burst4": ["tree7", "tree10"],
+
+	"radial1": ["tree5", "tree1"],
+	"radial2": ["tree5", "tree3"],
+	"radial3": ["tree5", "tree6"],
+	"radial4": ["tree5", "tree10"],
+	"radial5": ["tree5", "tree9"],
+	"radial6": ["tree5", "tree8"],
+	"radial7": ["tree5", "tree7"],
+	"radial8": ["tree5", "tree4"],
+	"radial9": ["tree5", "tree2"]
+}

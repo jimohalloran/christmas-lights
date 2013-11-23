@@ -1,0 +1,10 @@
+{
+	"beatsPerMinute": 10,
+	"repeat": false,
+	"sequences": [
+		{
+			"seq": "rgbWipe",
+			"repeats": 2
+		}
+	]
+}

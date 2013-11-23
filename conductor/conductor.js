@@ -1,5 +1,13 @@
+// Tree Formation:
+//
+//       1
+//     2   3
+//   4   5   6
+// 7   8   9   10
+
 var Config = require('../common/config.js');
-Config.init(function() {
+Config.init(true, function() {
+
 	// Original source for UDP sender code:
 	//   http://www.robertprice.co.uk/robblog/2011/03/using_node_js_to_send_a_heartbeat_to_a_python_server-shtml/
 

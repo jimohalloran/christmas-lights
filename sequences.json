@@ -1,0 +1,56 @@
+{
+	"wipe": {
+		"colours": 1,
+		"pattern": [
+			{
+				"form": "col1",
+				"colour": 1
+			},
+			{
+				"form": "col2",
+				"colour": 1
+			},
+			{
+				"form": "col3",
+				"colour": 1
+			},
+			{
+				"form": "col4",
+				"colour": 1
+			},
+			{
+				"form": "col5",
+				"colour": 1
+			},
+			{
+				"form": "col6",
+				"colour": 1
+			},
+			{
+				"form": "col7",
+				"colour": 1
+			}
+		]
+	},
+	"rgbWipe": {
+		"colours": 0,
+		"pattern": [
+			{
+				"seq": "wipe",
+				"colour": "#ff0000"
+			},
+			{
+				"seq": "wipe",
+				"colour": "#00ff00"
+			},
+			{
+				"seq": "wipe",
+				"colour": "#0000ff"
+			},
+			{
+				"seq": "wipe",
+				"colour": "#ffffff"
+			}
+		]
+	}
+}
