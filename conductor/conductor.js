@@ -93,7 +93,6 @@ var Sequences = {
 		if (colourIndex === 0) {
 			return [0, 0, 0];
 		} else if (parseInt(colourIndex) != NaN) {
-			console.dir([colourIndex, colours]);
 			return this._htmlColourToRgbArray(colours[colourIndex-1]);
 		} else if (colourIndex.match(/#[0-9a-f]{6}/)) {
 			return this._htmlColourToRgbArray(colourIndex);
@@ -110,6 +109,54 @@ var Sequences = {
 		return htmlComponents;
 	} 
 }
+
+
+var ChannelState = {
+	_currentState: {},
+
+	init: function() {
+		// Zero out all channels.
+		Object.keys(Config.channelMap).forEach(function(channelName) {
+			ChannelState._currentState[channelName] = 0;
+		});
+	},
+
+	generateChannelDiff: function(pattern) {
+		var processed = {};
+		var lightsChanged = {};
+		
+		pattern.lights.forEach(function(lightId) {
+			var channels = ChannelState._mapLightToChannels(lightId);
+			channels.forEach(function(channelName, idx) {
+				processed[channelName] = true;
+				var newValue = pattern.colour[idx];
+				if (newValue != ChannelState._currentState[channelName]) {
+					lightsChanged[channelName] = newValue;
+				}
+			});
+		});
+
+		// Turn off any lights that were on
+		Object.keys(this._currentState).forEach(function(channelName) {
+			if (processed[channelName] == undefined && ChannelState._currentState[channelName] != 0) {
+				lightsChanged[channelName] = 0;
+			}
+		});
+
+		return lightsChanged;
+	},
+
+	updateChannelState: function(diff) {
+		Object.keys(diff).forEach(function(channelName) {
+			ChannelState._currentState[channelName] = diff[channelName];
+		});
+	},
+
+	_mapLightToChannels: function(lightId) {
+		return Config.lights[lightId].channels;
+	}
+}
+
 
 Config.init(true, function() {
 
@@ -132,14 +179,18 @@ Config.init(true, function() {
 		console.log("Exception: " + exception);
 	});
 
+	ChannelState.init();
+
 	setInterval(function() {
 		var pattern = Display.getNextPattern();
 		if (pattern == null) {
 			process.exit(0);
 		}
 
-		console.dir(pattern);
+		var diff = ChannelState.generateChannelDiff(pattern);
+		console.dir(diff);
 		//client.send(message, 0, message.length, server_port, server_ip);
+		ChannelState.updateChannelState(diff);
 	}, Display.getBeatInterval());
 
 });
