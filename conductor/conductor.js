@@ -116,15 +116,21 @@ var ChannelState = {
 
 	init: function() {
 		// Zero out all channels.
+		this._currentState = this.getLightsOut();
+	},
+
+	getLightsOut: function() {
+		var lightsOut = {};
 		Object.keys(Config.channelMap).forEach(function(channelName) {
-			ChannelState._currentState[channelName] = 0;
+			lightsOut[channelName] = 0;
 		});
+		return lightsOut;
 	},
 
 	generateChannelDiff: function(pattern) {
 		var processed = {};
 		var lightsChanged = {};
-		
+
 		pattern.lights.forEach(function(lightId) {
 			var channels = ChannelState._mapLightToChannels(lightId);
 			channels.forEach(function(channelName, idx) {
@@ -164,11 +170,13 @@ Config.init(true, function() {
 	//   http://www.robertprice.co.uk/robblog/2011/03/using_node_js_to_send_a_heartbeat_to_a_python_server-shtml/
 
 	var dgram = require('dgram');
-	var message = new Buffer("PyHB");
 	var server_ip = '127.0.0.1';
 	var server_port = 43278;
 	var beat_period = 1;
 	var debug = 1;
+
+	ChannelState.init();
+	var lightsOut = new Buffer(JSON.stringify(ChannelState.getLightsOut()));
 
 	console.log("Sending light instructions to IP " + server_ip + " , port " + server_port);
 	console.log("press Ctrl-C to stop");
@@ -177,20 +185,23 @@ Config.init(true, function() {
 
 	client.on("error", function (exception) {
 		console.log("Exception: " + exception);
+		client.send(lightsOut, 0, lightsOut.length, server_port, server_ip);
 	});
 
-	ChannelState.init();
+	client.send(lightsOut, 0, lightsOut.length, server_port, server_ip);
 
 	setInterval(function() {
 		var pattern = Display.getNextPattern();
 		if (pattern == null) {
-			process.exit(0);
+			client.send(lightsOut, 0, lightsOut.length, server_port, server_ip, function() {
+				process.exit(0);
+			});
+		} else {
+			var diff = ChannelState.generateChannelDiff(pattern);
+			var message = new Buffer(JSON.stringify(diff));
+			client.send(message, 0, message.length, server_port, server_ip);
+			ChannelState.updateChannelState(diff);
 		}
-
-		var diff = ChannelState.generateChannelDiff(pattern);
-		console.dir(diff);
-		//client.send(message, 0, message.length, server_port, server_ip);
-		ChannelState.updateChannelState(diff);
 	}, Display.getBeatInterval());
 
 });
