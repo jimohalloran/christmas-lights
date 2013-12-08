@@ -15,3 +15,14 @@ I installed Device::SerialPort on my machine (Mac OS 10.8 or 10.9) using system 
 cpan install Device::SerialPort
 ```
 
+
+Controller
+====================
+
+Node.js application.
+
+Requires the serialport package.
+
+```bash
+npm install serialport
+```

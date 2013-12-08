@@ -2,7 +2,7 @@
 	"controllers": {
 		"primary": {
 			"type": "arduinotlc",
-			"serialPort": "/dev/cu.usbserial",
+			"serialPort": "/dev/tty.usbserial-A7007byi",
 			"channels": [
 				"tree1r",
 				"tree1g",

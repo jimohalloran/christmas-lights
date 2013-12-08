@@ -125,9 +125,9 @@ exports.init = function(initEverything, cb) {
 
 		var config = JSON.parse(data);
 		exports.controllers = config.controllers;
+		_buildChannelMap();
 		
 		if (initEverything) {
-			_buildChannelMap();
 			
 			exports.lights = config.lights;
 			_validateLights();
