@@ -1,9 +1,13 @@
 {
 	"beatsPerMinute": 100,
-	"repeat": false,
+	"repeat": true,
 	"sequences": [
 		{
 			"seq": "rgbWipe",
+			"repeats": 2
+		},
+		{
+			"seq": "rbgRowWipe",
 			"repeats": 2
 		}
 	]

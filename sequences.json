@@ -52,5 +52,47 @@
 				"colour": "#ffffff"
 			}
 		]
+	},
+	"rowWipe": {
+		"colours": 1,
+		"pattern": [
+			{
+				"form": "row1",
+				"colour": 1
+			},
+			{
+				"form": "row2",
+				"colour": 1
+			},
+			{
+				"form": "row3",
+				"colour": 1
+			},
+			{
+				"form": "row4",
+				"colour": 1
+			}
+		]
+	},
+	"rbgRowWipe": {
+		"colours": 0,
+		"pattern": [
+			{
+				"seq": "rowWipe",
+				"colour": "#ff0000"
+			},
+			{
+				"seq": "rowWipe",
+				"colour": "#00ff00"
+			},
+			{
+				"seq": "rowWipe",
+				"colour": "#0000ff"
+			},
+			{
+				"seq": "rowWipe",
+				"colour": "#ffffff"
+			}
+		]
 	}
 }
