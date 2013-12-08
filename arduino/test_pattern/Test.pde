@@ -64,7 +64,7 @@ void setup()
 void loop()
 {
   int direction = 1;
-  for (int channel = 0; channel < NUM_TLCS * 8; channel += direction) {
+  for (int channel = 0; channel < NUM_TLCS * 16; channel += direction) {
 
     /* Tlc.clear() sets all the grayscale values to zero, but does not send
        them to the TLCs.  To actually send the data, call Tlc.update() */
@@ -81,11 +81,11 @@ void loop()
     if (channel == 0) {
       direction = 1;
     } else {
-      Tlc.set(channel - 1, 1000);
+      Tlc.set(channel - 1, 0);
     }
     Tlc.set(channel, 4095);
-    if (channel != NUM_TLCS * 8 - 1) {
-      Tlc.set(channel + 1, 1000);
+    if (channel != NUM_TLCS * 16 - 1) {
+      Tlc.set(channel + 1, 0);
     } else {
       direction = -1;
     }
