@@ -1,43 +1,74 @@
 
 #include "Tlc5940.h"
 
-void establishContact() {
-while (Serial.available() <= 0) {
-Serial.println("0,0,0"); //sendaninitialstring
-delay(300); }
-}
+String serialDataIn;
 
 void setup() {
   /* Call Tlc.init() to setup the tlc and turn all channels off. */
   Tlc.init(0);
 
   /* Start serial comms */
-  Serial.begin(9600);
-  Serial.setTimeout(30000);
-  establishContact();
+  Serial.begin(19200);
+  //Serial.setTimeout(30000);
+  serialDataIn = "";
 }
 
-void loop() {
-  while (Serial.available() > 0) {
-    int chan = Serial.parseInt();
-    Serial.print("int1");
-    Serial.print(chan);
-    int bright = Serial.parseInt();
-    Serial.print("int2");
-    Serial.print(bright);
 
-    if (Serial.read() == '\n') {
-      Serial.print(255, HEX);
-      chan = constrain(chan, 0, 7);
-      bright = constrain(bright, 0, 4096);
+void processSet(int chan, int value) {
+  int brightness = value * 16;
+  
+  Tlc.set(chan, brightness);
+}
 
-      Tlc.set(chan, bright);
-      Tlc.update();
-      Serial.print("Output:");
-      Serial.print(chan, HEX);
-      Serial.print(bright, HEX);
+
+void processExe() {
+  Tlc.update();
+}
+
+
+void processOff() {
+  Tlc.clear();
+}
+
+
+void processCommand() {
+  String type = serialDataIn.substring(0, 3);
+  Serial.println(type);
+  if (type == "OFF") {
+    processOff();
+  } else {
+    if (type == "EXE") {
+      processExe();
+
+    } else {
+
+      int delimIdx = serialDataIn.indexOf(',');
+      int delimIdx2 = serialDataIn.indexOf(',', delimIdx+1);
+
+      int channel = serialDataIn.substring(delimIdx+1, delimIdx2).toInt();
+      int value = serialDataIn.substring(delimIdx2+1).toInt();
+
+      if (type == "SET") {
+        processSet(channel, value);
+      } else {
+        Serial.println("Unknown Command: "+serialDataIn);
+      }
     }
   }
 }
 
 
+void loop() {
+  byte inbyte;
+
+  if (Serial.available()) {
+    inbyte = Serial.read();
+    if (inbyte ==  '\n') {  // end of line
+      processCommand();
+      Serial.println("ACK");
+      serialDataIn = "";
+    } else {
+      serialDataIn += char(inbyte);
+    }        
+  }
+}
